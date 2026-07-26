@@ -1,0 +1,24 @@
+# ARIA Application Configuration
+app:
+  name: "ARIA"
+  version: "0.2.0"
+  environment: "development"
+
+logging:
+  level: "INFO"
+  console_output: true
+  file_output: true
+  file_path: "logs/aria.log"
+
+modules:
+  memory:
+    enabled: false
+  tools:
+    enabled: false
+  voice:
+    enabled: false
+  agents:
+    enabled: false
+  ui:
+    enabled: true
+    type: "cli"
