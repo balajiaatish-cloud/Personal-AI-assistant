@@ -1,0 +1,737 @@
+--- a/src/config/index.ts+++ b/src/config/index.ts@@ -1,7 +1,15 @@+export interface MemorySettings {
++  directory: string;
++  filename: string;
++  autosave: boolean;
++  maxHistory: number;
++}
++
+ export interface Settings {
+   modelProvider: string;
+   modelName: string;
+   temperature: number;
++  memory: MemorySettings;
+ }
+ 
+ export class ConfigManager {
+@@ -9,9 +17,16 @@     modelProvider: "gemini",
+     modelName: "gemini-3.6-flash",
+     temperature: 0.7,
++    memory: {
++      directory: "./memory",
++      filename: "conversations.json",
++      autosave: true,
++      maxHistory: 100,
++    },
+   };
+ 
+   public getSettings(): Settings {
+     return this.settings;
+   }
+ }
++
+
+--- a/src/types/index.ts+++ b/src/types/index.ts@@ -1,4 +1,5 @@ // Shared type definitions
+ export * from "../ai/provider";
+ export * from "../chat/history";
+-export * from "../memory/memory";
++export * from "../chat/conversationManager";
++export * from "../memory";
+
+--- a/src/ai/provider.ts+++ b/src/ai/provider.ts@@ -1,3 +1,6 @@+import { Message } from "../memory";
++
+ export interface AIProvider {
+-  chat(prompt: string): Promise<string>;
++  chat(prompt: string, history?: Message[]): Promise<string>;
+ }
++
+
+--- a/src/ai/gemini.ts+++ b/src/ai/gemini.ts@@ -1,6 +1,9 @@ import { GoogleGenAI } from "@google/genai";
+ import dotenv from "dotenv";
+ import { AIProvider } from "./provider";
++import { Message } from "../memory";
++import { formatError } from "../utils";
++import { Logger } from "../logger/logger";
+ 
+ dotenv.config();
+ 
+@@ -13,12 +16,30 @@     });
+   }
+ 
+-  async chat(prompt: string): Promise<string> {
+-    const response = await this.ai.models.generateContent({
+-      model: "gemini-3.6-flash",
+-      contents: prompt,
+-    });
++  async chat(prompt: string, history?: Message[]): Promise<string> {
++    let contents: any = prompt;
+ 
+-    return response.text ?? "";
++    if (history && history.length > 0) {
++      contents = history
++        .filter(msg => msg.role === "user" || msg.role === "assistant")
++        .map(msg => ({
++          role: msg.role === "assistant" ? "model" : "user",
++          parts: [{ text: msg.content }]
++        }));
++    }
++
++    try {
++      const response = await this.ai.models.generateContent({
++        model: "gemini-3.6-flash",
++        contents: contents,
++      });
++
++      return response.text ?? "";
++    } catch (error: any) {
++      Logger.error(`Gemini API call failed with detailed error:\n${formatError(error)}`);
++      throw error;
++    }
+   }
+ }
++
++
+
+--- a/src/core/aria.ts+++ b/src/core/aria.ts@@ -1,26 +1,54 @@ import { AIProvider } from "../ai/provider";
+ import { AIProviderFactory } from "../ai/factory";
+-import { MemoryManager } from "../memory/memory";
+-import { HistoryManager } from "../chat/history";
+ import { ConfigManager } from "../config";
+ import { Logger } from "../logger/logger";
++import { JSONStorage, MemoryManager } from "../memory";
++import { ConversationManager } from "../chat/conversationManager";
+ 
+ export class ARIA {
+   private provider: AIProvider;
+-  private memory: MemoryManager;
+-  private history: HistoryManager;
+   private config: ConfigManager;
++  private storage: JSONStorage;
++  private memoryManager: MemoryManager;
++  private conversationManager: ConversationManager;
++  private initialized: boolean = false;
+ 
+   constructor() {
+     this.config = new ConfigManager();
++    const settings = this.config.getSettings();
++
+     this.provider = AIProviderFactory.createProvider();
+-    this.memory = new MemoryManager();
+-    this.history = new HistoryManager();
++    
++    // Instantiate storage and memory layers with configuration
++    this.storage = new JSONStorage(
++      settings.memory.directory,
++      settings.memory.filename
++    );
++    this.memoryManager = new MemoryManager(this.storage);
++    
++    // Core conversation flow coordinator
++    this.conversationManager = new ConversationManager(
++      this.memoryManager,
++      this.provider
++    );
++  }
++
++  /**
++   * Initializes the persistent memory and loads previous conversation context.
++   */
++  async initialize(): Promise<void> {
++    if (this.initialized) return;
++    await this.conversationManager.initialize();
++    this.initialized = true;
+   }
+ 
+   async chat(message: string): Promise<string> {
++    if (!this.initialized) {
++      await this.initialize();
++    }
+     Logger.debug(`ARIA received message: ${message}`);
+-    const response = await this.provider.chat(message);
++    const response = await this.conversationManager.processMessage(message);
+     return response;
+   }
+ }
++
+
+--- a/src/main.ts+++ b/src/main.ts@@ -1,11 +1,64 @@ import { aria } from "./index";
++import readline from "readline";
+ 
+ async function main() {
+-  const reply = await aria.chat(
+-    "Introduce yourself as ARIA."
+-  );
++  // Pre-initialize ARIA to load memory and display startup logs before prompt
++  await aria.initialize();
+ 
+-  console.log(reply);
++  const rl = readline.createInterface({
++    input: process.stdin,
++    output: process.stdout,
++  });
++
++  console.log("\n==================================================");
++  console.log("      ARIA Interactive CLI (Type 'exit' to quit) ");
++  console.log("==================================================\n");
++
++  const promptUser = () => {
++    rl.question("\nYou: ", async (input) => {
++      const trimmedInput = input.trim();
++      const lowerInput = trimmedInput.toLowerCase();
++
++      if (
++        lowerInput === "exit" ||
++        lowerInput === "quit" ||
++        lowerInput === "/exit" ||
++        lowerInput === "/quit"
++      ) {
++        console.log("Goodbye!");
++        rl.close();
++        return;
++      }
++
++      if (!trimmedInput) {
++        promptUser();
++        return;
++      }
++
++      try {
++        process.stdout.write("ARIA: Thinking...\r");
++        const response = await aria.chat(trimmedInput);
++        
++        // Clear the "ARIA: Thinking..." text and print response
++        readline.clearLine(process.stdout, 0);
++        readline.cursorTo(process.stdout, 0);
++        console.log(`ARIA: ${response}`);
++      } catch (error: any) {
++        console.log(`\n[ERROR] Failed to get response: ${error.message}`);
++      }
++
++      promptUser();
++    });
++  };
++
++  promptUser();
++
++  rl.on("SIGINT", () => {
++    console.log("\nGoodbye!");
++    rl.close();
++    process.exit(0);
++  });
+ }
+ 
+ main().catch(console.error);
++
+
+--- a/src/utils/index.ts+++ b/src/utils/index.ts@@ -1,3 +1,34 @@ export function delay(ms: number): Promise<void> {
+   return new Promise(resolve => setTimeout(resolve, ms));
+ }
++
++export function formatError(error: any): string {
++  if (!error) return "Unknown error";
++  
++  let details = `Error Name: ${error.name || "Error"}\n`;
++  details += `Error Message: ${error.message || String(error)}\n`;
++  
++  if (error.stack) {
++    details += `Stack Trace:\n${error.stack}\n`;
++  }
++  if (error.status !== undefined) {
++    details += `HTTP Status: ${error.status}\n`;
++  }
++  if (error.statusText) {
++    details += `HTTP Status Text: ${error.statusText}\n`;
++  }
++  if (error.errorDetails) {
++    details += `Error Details: ${JSON.stringify(error.errorDetails, null, 2)}\n`;
++  }
++  if (error.response) {
++    details += `Response Body: ${JSON.stringify(error.response, null, 2)}\n`;
++  }
++  if (error.cause) {
++    details += `Underlying Cause: ${error.cause.message || String(error.cause)}\n`;
++    if (error.cause.stack) {
++      details += `Cause Stack Trace:\n${error.cause.stack}\n`;
++    }
++  }
++  return details;
++}
++
+
+--- a/src/memory/models/message.ts+++ b/src/memory/models/message.ts@@ -0,0 +1,33 @@+import crypto from "crypto";
++
++export type MessageRole = "system" | "user" | "assistant" | "tool";
++
++export interface Message {
++  id: string;
++  role: MessageRole;
++  content: string;
++  timestamp: string; // ISO String
++  metadata?: Record<string, any>;
++  
++  // Future fields placeholder
++  tokenCount?: number;
++  embeddings?: number[];
++  importanceScore?: number;
++}
++
++/**
++ * Creates a new Message object with a unique ID and current timestamp.
++ */
++export function createMessage(
++  role: MessageRole,
++  content: string,
++  metadata?: Record<string, any>
++): Message {
++  return {
++    id: crypto.randomUUID(),
++    role,
++    content,
++    timestamp: new Date().toISOString(),
++    metadata,
++  };
++}
+
+--- a/src/memory/models/conversation.ts+++ b/src/memory/models/conversation.ts@@ -0,0 +1,30 @@+import crypto from "crypto";
++import { Message } from "./message";
++
++export interface Conversation {
++  id: string;
++  createdAt: string; // ISO String
++  updatedAt: string; // ISO String
++  messages: Message[];
++  
++  // Future fields placeholders
++  title?: string;
++  summary?: string;
++  tags?: string[];
++  archived?: boolean;
++  metadata?: Record<string, any>;
++}
++
++/**
++ * Creates a new empty Conversation object with a unique ID and current timestamp.
++ */
++export function createConversation(id?: string, metadata?: Record<string, any>): Conversation {
++  const now = new Date().toISOString();
++  return {
++    id: id || crypto.randomUUID(),
++    createdAt: now,
++    updatedAt: now,
++    messages: [],
++    metadata,
++  };
++}
+
+--- a/src/memory/storage/storageEngine.ts+++ b/src/memory/storage/storageEngine.ts@@ -0,0 +1,33 @@+import { Conversation } from "../models/conversation";
++
++export interface StorageEngine {
++  /**
++   * Loads a conversation by its ID. Returns null if not found.
++   */
++  load(id: string): Promise<Conversation | null>;
++
++  /**
++   * Saves a new conversation.
++   */
++  save(conversation: Conversation): Promise<void>;
++
++  /**
++   * Updates an existing conversation.
++   */
++  update(conversation: Conversation): Promise<void>;
++
++  /**
++   * Deletes a conversation by its ID.
++   */
++  delete(id: string): Promise<void>;
++
++  /**
++   * Clears all stored conversations.
++   */
++  clear(): Promise<void>;
++
++  /**
++   * Lists all stored conversations.
++   */
++  list(): Promise<Conversation[]>;
++}
+
+--- a/src/memory/storage/jsonStorage.ts+++ b/src/memory/storage/jsonStorage.ts@@ -0,0 +1,181 @@+import fs from "fs/promises";
++import path from "path";
++import { StorageEngine } from "./storageEngine";
++import { Conversation } from "../models/conversation";
++import { Logger } from "../../logger/logger";
++
++interface StorageSchema {
++  version: string;
++  activeConversation: string | null;
++  conversations: Conversation[];
++}
++
++export class JSONStorage implements StorageEngine {
++  private readonly filepath: string;
++  private readonly dirpath: string;
++
++  constructor(directory: string = "./memory", filename: string = "conversations.json") {
++    this.dirpath = path.resolve(directory);
++    this.filepath = path.join(this.dirpath, filename);
++  }
++
++  /**
++   * Initializes the storage directory and file if they do not exist.
++   */
++  private async ensureInitialized(): Promise<void> {
++    try {
++      await fs.mkdir(this.dirpath, { recursive: true });
++      try {
++        await fs.access(this.filepath);
++      } catch {
++        // File does not exist, initialize with default empty schema
++        await this.writeRaw({
++          version: "1.0",
++          activeConversation: null,
++          conversations: [],
++        });
++        Logger.info(`Initialized empty memory storage at: ${this.filepath}`);
++      }
++    } catch (error: any) {
++      Logger.error(`Failed to initialize JSON storage: ${error.message}`);
++    }
++  }
++
++  /**
++   * Read raw schema from storage. Gracefully handles corrupted JSON.
++   */
++  private async readRaw(): Promise<StorageSchema> {
++    await this.ensureInitialized();
++    try {
++      const data = await fs.readFile(this.filepath, "utf-8");
++      if (!data.trim()) {
++        Logger.warn("Memory storage file is empty. Resetting to default schema.");
++        return this.resetStorage();
++      }
++      const parsed = JSON.parse(data) as StorageSchema;
++      
++      // Ensure the structure matches schema basics
++      if (!parsed.version || !Array.isArray(parsed.conversations)) {
++        throw new Error("Invalid schema structure");
++      }
++      return parsed;
++    } catch (error: any) {
++      Logger.warn(`Memory storage file is corrupted or unreadable (${error.message}). Attempting recovery.`);
++      return this.recoverCorruptedStorage();
++    }
++  }
++
++  /**
++   * Safe write method that writes to a temporary file first, then renames.
++   */
++  private async writeRaw(data: StorageSchema): Promise<void> {
++    const tempFile = `${this.filepath}.tmp`;
++    try {
++      const jsonString = JSON.stringify(data, null, 2);
++      await fs.writeFile(tempFile, jsonString, "utf-8");
++      await fs.rename(tempFile, this.filepath);
++    } catch (error: any) {
++      Logger.error(`Error during safe write to memory storage: ${error.message}`);
++      // Clean up temp file if it exists
++      try {
++        await fs.unlink(tempFile);
++      } catch {}
++      throw error;
++    }
++  }
++
++  /**
++   * Recovers corrupted storage by backing it up and resetting it.
++   */
++  private async recoverCorruptedStorage(): Promise<StorageSchema> {
++    const backupPath = `${this.filepath}.corrupt.${Date.now()}.bak`;
++    try {
++      await fs.copyFile(this.filepath, backupPath);
++      Logger.warn(`Corrupted memory file backed up to: ${backupPath}`);
++    } catch (error: any) {
++      Logger.error(`Could not create backup of corrupted file: ${error.message}`);
++    }
++    return this.resetStorage();
++  }
++
++  /**
++   * Resets storage to default state.
++   */
++  private async resetStorage(): Promise<StorageSchema> {
++    const defaultSchema: StorageSchema = {
++      version: "1.0",
++      activeConversation: null,
++      conversations: [],
++    };
++    try {
++      await this.writeRaw(defaultSchema);
++    } catch (error: any) {
++      Logger.error(`Failed to reset storage file: ${error.message}`);
++    }
++    return defaultSchema;
++  }
++
++  // --- StorageEngine Interface Implementation ---
++
++  public async load(id: string): Promise<Conversation | null> {
++    const schema = await this.readRaw();
++    const conv = schema.conversations.find((c) => c.id === id);
++    return conv || null;
++  }
++
++  public async save(conversation: Conversation): Promise<void> {
++    const schema = await this.readRaw();
++    // Check if it already exists to avoid duplicate saves
++    const index = schema.conversations.findIndex((c) => c.id === conversation.id);
++    if (index !== -1) {
++      schema.conversations[index] = conversation;
++    } else {
++      schema.conversations.push(conversation);
++    }
++    await this.writeRaw(schema);
++  }
++
++  public async update(conversation: Conversation): Promise<void> {
++    const schema = await this.readRaw();
++    const index = schema.conversations.findIndex((c) => c.id === conversation.id);
++    if (index === -1) {
++      throw new Error(`Conversation with ID ${conversation.id} not found in storage.`);
++    }
++    schema.conversations[index] = conversation;
++    await this.writeRaw(schema);
++  }
++
++  public async delete(id: string): Promise<void> {
++    const schema = await this.readRaw();
++    schema.conversations = schema.conversations.filter((c) => c.id !== id);
++    if (schema.activeConversation === id) {
++      schema.activeConversation = null;
++    }
++    await this.writeRaw(schema);
++  }
++
++  public async clear(): Promise<void> {
++    const schema = await this.readRaw();
++    schema.conversations = [];
++    schema.activeConversation = null;
++    await this.writeRaw(schema);
++  }
++
++  public async list(): Promise<Conversation[]> {
++    const schema = await this.readRaw();
++    return schema.conversations;
++  }
++
++  // --- Active Conversation Persistence ---
++
++  public async getActiveConversationId(): Promise<string | null> {
++    const schema = await this.readRaw();
++    return schema.activeConversation;
++  }
++
++  public async setActiveConversationId(id: string | null): Promise<void> {
++    const schema = await this.readRaw();
++    schema.activeConversation = id;
++    await this.writeRaw(schema);
++  }
++}
+
+--- a/src/memory/services/memoryManager.ts+++ b/src/memory/services/memoryManager.ts@@ -0,0 +1,117 @@+import { StorageEngine } from "../storage/storageEngine";
++import { Conversation, createConversation } from "../models/conversation";
++import { Message, createMessage, MessageRole } from "../models/message";
++import { Logger } from "../../logger/logger";
++
++export class MemoryManager {
++  private storage: StorageEngine;
++  private activeConversation: Conversation | null = null;
++
++  constructor(storage: StorageEngine) {
++    this.storage = storage;
++  }
++
++  /**
++   * Initializes the active conversation.
++   * Loads the last active conversation from storage, or creates a new one if none exists.
++   */
++  public async initializeActiveConversation(): Promise<Conversation> {
++    try {
++      // Cast the storage so we can check if it supports active conversation retrieval
++      let lastActiveId: string | null = null;
++      if ("getActiveConversationId" in this.storage) {
++        lastActiveId = await (this.storage as any).getActiveConversationId();
++      }
++
++      if (lastActiveId) {
++        const conversation = await this.storage.load(lastActiveId);
++        if (conversation) {
++          this.activeConversation = conversation;
++          Logger.info(`Resumed active conversation: ${this.activeConversation.id}`);
++          return this.activeConversation;
++        }
++      }
++
++      // If no active conversation exists, create a new one
++      return await this.createNewConversation();
++    } catch (error: any) {
++      Logger.error(`Error initializing active conversation: ${error.message}. Resetting to new conversation.`);
++      return await this.createNewConversation();
++    }
++  }
++
++  /**
++   * Creates a new conversation, sets it as the active one, and persists this state.
++   */
++  public async createNewConversation(): Promise<Conversation> {
++    const conversation = createConversation();
++    this.activeConversation = conversation;
++    
++    await this.storage.save(conversation);
++    if ("setActiveConversationId" in this.storage) {
++      await (this.storage as any).setActiveConversationId(conversation.id);
++    }
++    
++    Logger.info(`Created new active conversation: ${conversation.id}`);
++    return conversation;
++  }
++
++  /**
++   * Returns the currently active conversation.
++   */
++  public getActiveConversation(): Conversation | null {
++    return this.activeConversation;
++  }
++
++  /**
++   * Saves a message to the active conversation and persists it to storage.
++   */
++  public async saveMessage(role: MessageRole, content: string): Promise<Message> {
++    if (!this.activeConversation) {
++      await this.initializeActiveConversation();
++    }
++
++    const message = createMessage(role, content);
++    this.activeConversation!.messages.push(message);
++    this.activeConversation!.updatedAt = new Date().toISOString();
++
++    await this.storage.save(this.activeConversation!);
++    return message;
++  }
++
++  /**
++   * Returns the history of messages for the active conversation.
++   */
++  public getHistory(): Message[] {
++    return this.activeConversation ? this.activeConversation.messages : [];
++  }
++
++  /**
++   * Clears the message history of the active conversation and persists the empty list.
++   */
++  public async clearHistory(): Promise<void> {
++    if (this.activeConversation) {
++      this.activeConversation.messages = [];
++      this.activeConversation.updatedAt = new Date().toISOString();
++      await this.storage.save(this.activeConversation);
++      Logger.info(`Cleared history for conversation: ${this.activeConversation.id}`);
++    }
++  }
++
++  /**
++   * Switches the active conversation to a specific conversation ID.
++   */
++  public async switchConversation(id: string): Promise<boolean> {
++    const conv = await this.storage.load(id);
++    if (conv) {
++      this.activeConversation = conv;
++      if ("setActiveConversationId" in this.storage) {
++        await (this.storage as any).setActiveConversationId(id);
++      }
++      Logger.info(`Switched active conversation to: ${id}`);
++      return true;
++    }
++    Logger.warn(`Failed to switch conversation: ID ${id} not found.`);
++    return false;
++  }
++}
+
+--- a/src/memory/index.ts+++ b/src/memory/index.ts@@ -0,0 +1,6 @@+export * from "./models/message";
++export * from "./models/conversation";
++export * from "./storage/storageEngine";
++export * from "./storage/jsonStorage";
++export * from "./services/memoryManager";
++export { MemoryManager as OldMemoryManager } from "./memory"; // Retain for backward compatibility if needed
+
+--- a/src/chat/conversationManager.ts+++ b/src/chat/conversationManager.ts@@ -0,0 +1,71 @@+import { MemoryManager, Message } from "../memory";
++import { AIProvider } from "../ai/provider";
++import { Logger } from "../logger/logger";
++import { formatError } from "../utils";
++
++export class ConversationManager {
++  private memoryManager: MemoryManager;
++  private provider: AIProvider;
++
++  constructor(memoryManager: MemoryManager, provider: AIProvider) {
++    this.memoryManager = memoryManager;
++    this.provider = provider;
++  }
++
++  /**
++   * Initializes the conversation session by loading/resuming the active conversation.
++   */
++  public async initialize(): Promise<void> {
++    Logger.info("Initializing ConversationManager...");
++    await this.memoryManager.initializeActiveConversation();
++  }
++
++  /**
++   * Processes a user message: saves to memory, sends context history to the AI provider,
++   * saves response to memory, and returns the response.
++   */
++  public async processMessage(messageText: string): Promise<string> {
++    Logger.debug(`ConversationManager processing message: ${messageText}`);
++
++    // 1. Save user message to memory
++    await this.memoryManager.saveMessage("user", messageText);
++
++    // 2. Load the full message history to pass as context
++    const history = this.memoryManager.getHistory();
++
++    try {
++      // 3. Call the provider with history context
++      const reply = await this.provider.chat(messageText, history);
++
++      // 4. Save the assistant's response to memory
++      await this.memoryManager.saveMessage("assistant", reply);
++
++      return reply;
++    } catch (error: any) {
++      Logger.error(`ConversationManager failed to process message with detailed error:\n${formatError(error)}`);
++      throw error;
++    }
++  }
++
++
++  /**
++   * Retrieves the current conversation history.
++   */
++  public getHistory(): Message[] {
++    return this.memoryManager.getHistory();
++  }
++
++  /**
++   * Clears the current conversation history.
++   */
++  public async clearHistory(): Promise<void> {
++    await this.memoryManager.clearHistory();
++  }
++
++  /**
++   * Creates a new conversation thread.
++   */
++  public async startNewConversation(): Promise<void> {
++    await this.memoryManager.createNewConversation();
++  }
++}
+

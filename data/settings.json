@@ -1,0 +1,5 @@
+{
+  "modelProvider": "gemini",
+  "modelName": "gemini-3.6-flash",
+  "temperature": 0.7
+}
