@@ -2,15 +2,19 @@ import { MemoryManager, Message } from "../memory";
 import { AIProvider } from "../ai/provider";
 import { Logger } from "../logger/logger";
 import { formatError } from "../utils";
+import { ToolRegistry } from "../tools";
 
 export class ConversationManager {
   private memoryManager: MemoryManager;
   private provider: AIProvider;
+  private toolRegistry: ToolRegistry;
 
-  constructor(memoryManager: MemoryManager, provider: AIProvider) {
+  constructor(memoryManager: MemoryManager, provider: AIProvider, toolRegistry: ToolRegistry) {
     this.memoryManager = memoryManager;
     this.provider = provider;
+    this.toolRegistry = toolRegistry;
   }
+
 
   /**
    * Initializes the conversation session by loading/resuming the active conversation.

@@ -4,6 +4,14 @@ import { ConfigManager } from "../config";
 import { Logger } from "../logger/logger";
 import { JSONStorage, MemoryManager } from "../memory";
 import { ConversationManager } from "../chat/conversationManager";
+import {
+  ToolRegistry,
+  ToolExecutor,
+  CalculatorTool,
+  DateTimeTool,
+  SystemTool,
+  FileSystemTool
+} from "../tools";
 
 export class ARIA {
   private provider: AIProvider;
@@ -12,24 +20,39 @@ export class ARIA {
   private memoryManager: MemoryManager;
   private conversationManager: ConversationManager;
   private initialized: boolean = false;
+  
+  // Public properties for CLI command executor access
+  public readonly toolRegistry: ToolRegistry;
+  public readonly toolExecutor: ToolExecutor;
 
   constructor() {
     this.config = new ConfigManager();
     const settings = this.config.getSettings();
 
     this.provider = AIProviderFactory.createProvider();
+
+    // 1. Tool Framework Initialization
+    this.toolRegistry = new ToolRegistry();
+    this.toolExecutor = new ToolExecutor(this.toolRegistry);
+
+    // 2. Register Built-in Tools
+    this.toolRegistry.register(new CalculatorTool());
+    this.toolRegistry.register(new DateTimeTool());
+    this.toolRegistry.register(new SystemTool());
+    this.toolRegistry.register(new FileSystemTool());
     
-    // Instantiate storage and memory layers with configuration
+    // 3. Instantiate storage and memory layers
     this.storage = new JSONStorage(
       settings.memory.directory,
       settings.memory.filename
     );
     this.memoryManager = new MemoryManager(this.storage);
     
-    // Core conversation flow coordinator
+    // 4. Inject dependencies into core conversation flow coordinator
     this.conversationManager = new ConversationManager(
       this.memoryManager,
-      this.provider
+      this.provider,
+      this.toolRegistry
     );
   }
 
@@ -51,4 +74,5 @@ export class ARIA {
     return response;
   }
 }
+
 

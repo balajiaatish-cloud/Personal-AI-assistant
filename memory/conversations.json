@@ -5,7 +5,7 @@
     {
       "id": "f1ed093d-7962-4471-8c86-fd1fa62c9971",
       "createdAt": "2026-07-29T07:03:09.208Z",
-      "updatedAt": "2026-07-29T09:51:29.032Z",
+      "updatedAt": "2026-07-29T12:51:26.808Z",
       "messages": [
         {
           "id": "9969329c-d3e9-444d-854d-9a7ea44b4bcc",
@@ -132,6 +132,90 @@
           "role": "assistant",
           "content": "**Newton's First Law of Motion** (often called the **Law of Inertia**) states that:\n\n> **An object will remain at rest, or keep moving at a constant speed in a straight line, unless acted upon by an external net force.**\n\nIn simple terms, this means two main things:\n\n1. **If something is sitting still**, it won't start moving on its own. (e.g., A parked car stays parked until an engine or a push moves it.)\n2. **If something is moving**, it wants to keep moving forever at the same speed and in the same direction unless a force stops or redirects it. \n\n### Why don't things move forever on Earth?\nIn everyday life, objects eventually stop because of invisible forces like **friction** and **air resistance**. If you throw a ball in outer space (where there is no air or gravity), it will keep flying in a straight line forever until it hits something or gets pulled by a planet's gravity.\n\n### A Real-World Example:\nThink about being inside a fast car—like your favorite **BMW M5 CS**. When the driver slams on the brakes, your body lurches forward. That happens because your body was moving at 60 mph, and according to Newton's First Law, your body *wants to keep moving* at 60 mph even though the car stopped! Your seatbelt provides the external force that stops you.",
           "timestamp": "2026-07-29T09:51:29.032Z"
+        },
+        {
+          "id": "cc570d9b-a968-4f37-9f80-abc3cc6fb047",
+          "role": "user",
+          "content": "what was my favorite car?",
+          "timestamp": "2026-07-29T12:28:03.064Z"
+        },
+        {
+          "id": "d34cf440-8d5c-4f7c-a9bd-8c9d282326d6",
+          "role": "assistant",
+          "content": "Your favorite car is the **BMW M5 CS**!",
+          "timestamp": "2026-07-29T12:28:05.200Z"
+        },
+        {
+          "id": "5f1e8b2f-3438-4435-8948-bc2ca6069ef3",
+          "role": "user",
+          "content": "is my favorite color black?",
+          "timestamp": "2026-07-29T12:28:23.395Z"
+        },
+        {
+          "id": "80f5fac2-4ed4-4d2e-bb00-84c11e92a396",
+          "role": "assistant",
+          "content": "No, your favorite color is **crimson**!",
+          "timestamp": "2026-07-29T12:28:25.064Z"
+        },
+        {
+          "id": "2c744aef-e0a6-48da-930b-df90efc69dd5",
+          "role": "user",
+          "content": "what is 10*5?",
+          "timestamp": "2026-07-29T12:28:34.466Z"
+        },
+        {
+          "id": "c797209f-9f9d-4650-9244-6ac81b53a3c4",
+          "role": "assistant",
+          "content": "10 * 5 is **50**!",
+          "timestamp": "2026-07-29T12:28:36.316Z"
+        },
+        {
+          "id": "7ad9bc29-b7c4-4e5a-8763-aa0ef85196d2",
+          "role": "user",
+          "content": "how is weather in bangalore today?",
+          "timestamp": "2026-07-29T12:29:08.801Z"
+        },
+        {
+          "id": "9584b752-f0be-4184-a0c5-70c6002b7780",
+          "role": "assistant",
+          "content": "I don't have access to real-time weather data. \n\nTo get the most accurate and up-to-date weather for Bangalore today, I recommend checking a weather app, Google, or a weather website like Weather.com or AccuWeather!",
+          "timestamp": "2026-07-29T12:29:12.177Z"
+        },
+        {
+          "id": "8fec8ca8-c1f6-4a73-b0d2-a49ed80fe005",
+          "role": "user",
+          "content": "hi",
+          "timestamp": "2026-07-29T12:49:59.728Z"
+        },
+        {
+          "id": "104a6e15-bdb6-48bc-8791-7ffed31f79aa",
+          "role": "assistant",
+          "content": "Hello again! How can I help you now?",
+          "timestamp": "2026-07-29T12:50:02.642Z"
+        },
+        {
+          "id": "571156eb-aad3-4cbd-9415-6f6685e08f91",
+          "role": "user",
+          "content": "what is time now?",
+          "timestamp": "2026-07-29T12:50:40.664Z"
+        },
+        {
+          "id": "eeb2aa3b-d4d6-4817-bb47-351f68b520a8",
+          "role": "assistant",
+          "content": "I don't have access to real-time information or your local timezone, so I can't tell you the exact current time. \n\nPlease check the clock on your device or phone for the accurate time!",
+          "timestamp": "2026-07-29T12:50:57.361Z"
+        },
+        {
+          "id": "63a8b571-7487-4f67-843e-73c0dc090b19",
+          "role": "user",
+          "content": "what is today's date?",
+          "timestamp": "2026-07-29T12:51:23.352Z"
+        },
+        {
+          "id": "4817ce5b-f0a0-4b7b-9372-636f3fa5b85b",
+          "role": "assistant",
+          "content": "I don't have access to real-time information, so I can't tell you today's exact date. \n\nPlease check the date display on your phone, computer, or a calendar!",
+          "timestamp": "2026-07-29T12:51:26.808Z"
         }
       ]
     }
