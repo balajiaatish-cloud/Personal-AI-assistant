@@ -56,7 +56,7 @@ class LLMConfig:
         self.provider = os.getenv("ARIA_LLM_PROVIDER", raw.get("provider", "openai"))
         self.model = os.getenv("ARIA_LLM_MODEL", raw.get("model", "gpt-4o"))
         self.api_key = os.getenv("OPENAI_API_KEY", raw.get("api_key", ""))
-        self.api_base = os.getenv("OPENAI_API_BASE", raw.get("api_base", ""))
+        self.api_base = os.getenv("OPENAI_API_BASE", raw.get("api_base", raw.get("host", "")))
 
 
 class Settings:

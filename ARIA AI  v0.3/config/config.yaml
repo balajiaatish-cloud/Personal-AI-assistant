@@ -24,6 +24,6 @@ modules:
     type: "cli"
 
 llm:
-  provider: "openai"
-  model: "gpt-4o"
-  api_key: ""
+  provider: ollama
+  model: gemma4:e2b
+  host: http://localhost:11434

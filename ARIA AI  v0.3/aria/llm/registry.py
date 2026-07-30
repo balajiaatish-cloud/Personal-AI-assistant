@@ -7,7 +7,6 @@ from aria.llm.base import BaseLLMProvider
 from aria.llm.providers.mock import MockProvider
 from aria.llm.providers.openai import OpenAIProvider
 from aria.llm.providers.ollama import OllamaProvider
-from aria.llm.providers.gemini import GeminiProvider
 from aria.llm.exceptions import ProviderInitializationError
 
 
@@ -19,8 +18,7 @@ class LLMProviderRegistry:
     _registry: Dict[str, Type[BaseLLMProvider]] = {
         "mock": MockProvider,
         "openai": OpenAIProvider,
-        "ollama": OllamaProvider,
-        "gemini": GeminiProvider
+        "ollama": OllamaProvider
     }
 
     @classmethod

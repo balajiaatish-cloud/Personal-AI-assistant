@@ -33,6 +33,21 @@ logging:
             self.assertIsNotNone(settings)
             self.assertIn(settings.app.name, ["ARIA", "TestARIA"])
 
+    def test_load_llm_settings_with_host(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            config_file = Path(tmp_dir) / "config.yaml"
+            config_file.write_text("""
+llm:
+  provider: ollama
+  model: gemma4:e2b
+  host: http://localhost:11434
+""", encoding="utf-8")
+
+            settings = load_settings(str(config_file))
+            self.assertEqual(settings.llm.provider, "ollama")
+            self.assertEqual(settings.llm.model, "gemma4:e2b")
+            self.assertEqual(settings.llm.api_base, "http://localhost:11434")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -17,7 +17,7 @@ class OllamaProvider(BaseLLMProvider):
     def __init__(self, model_name: str = "llama3", config: Optional[Dict[str, Any]] = None):
         super().__init__(model_name=model_name, config=config)
         self.logger = get_logger("aria.llm.ollama")
-        self.api_base = self.config.get("api_base", "http://localhost:11434")
+        self.api_base = self.config.get("api_base") or self.config.get("host") or "http://localhost:11434"
 
     @property
     def provider_name(self) -> str:

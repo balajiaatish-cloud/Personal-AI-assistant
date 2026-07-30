@@ -1,5 +1,5 @@
 {
-  "modelProvider": "gemini",
-  "modelName": "gemini-3.6-flash",
+  "modelProvider": "ollama",
+  "modelName": "gemma4:e2b",
   "temperature": 0.7
 }

@@ -1,7 +1,6 @@
-export const DEFAULT_MODEL = "gemini-3.6-flash";
+export const DEFAULT_MODEL = "gemma4:e2b";
 
 export enum ModelProviderType {
-  GEMINI = "gemini",
   OPENAI = "openai",
   OLLAMA = "ollama",
   CLAUDE = "claude",
