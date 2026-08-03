@@ -16,6 +16,7 @@ export class DateTimeTool implements Tool<DateTimeInput, DateTimeOutput> {
   public readonly name = "datetime";
   public readonly description = "Retrieves the current date, time, or ISO timestamp in the system's timezone.";
   public readonly category = "utility";
+  public readonly permissionLevel = "safe" as const;
   public readonly inputSchema = {
     type: "object",
     properties: {

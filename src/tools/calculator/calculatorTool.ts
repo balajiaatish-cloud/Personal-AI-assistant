@@ -12,6 +12,7 @@ export class CalculatorTool implements Tool<CalculatorInput, number> {
   public readonly name = "calculator";
   public readonly description = "Performs basic mathematical operations (add, subtract, multiply, divide).";
   public readonly category = "mathematics";
+  public readonly permissionLevel = "safe" as const;
   public readonly inputSchema = {
     type: "object",
     properties: {
@@ -23,12 +24,13 @@ export class CalculatorTool implements Tool<CalculatorInput, number> {
   };
 
   public async execute(args: CalculatorInput, context: ToolContext): Promise<ToolResult<number>> {
-    // Basic structural validation
     if (!args || typeof args !== "object") {
       return {
         success: false,
-        message: "Invalid input arguments. Expected an object with operation, a, and b.",
-        error: "InvalidParameters",
+        error: {
+          code: "InvalidParameters",
+          message: "Invalid input arguments. Expected an object with operation, a, and b."
+        }
       };
     }
 
@@ -37,8 +39,10 @@ export class CalculatorTool implements Tool<CalculatorInput, number> {
     if (operation === undefined || a === undefined || b === undefined) {
       return {
         success: false,
-        message: "Missing required parameters: operation, a, b",
-        error: "MissingParameters",
+        error: {
+          code: "MissingParameters",
+          message: "Missing required parameters: operation, a, b"
+        }
       };
     }
 
@@ -48,8 +52,10 @@ export class CalculatorTool implements Tool<CalculatorInput, number> {
     if (isNaN(numA) || isNaN(numB)) {
       return {
         success: false,
-        message: "Parameters a and b must be valid numbers.",
-        error: "InvalidParameters",
+        error: {
+          code: "InvalidParameters",
+          message: "Parameters a and b must be valid numbers."
+        }
       };
     }
 
@@ -76,8 +82,10 @@ export class CalculatorTool implements Tool<CalculatorInput, number> {
         if (numB === 0) {
           return {
             success: false,
-            message: "Division by zero is not allowed.",
-            error: "DivideByZero",
+            error: {
+              code: "DivideByZero",
+              message: "Division by zero is not allowed."
+            }
           };
         }
         return {
@@ -88,8 +96,10 @@ export class CalculatorTool implements Tool<CalculatorInput, number> {
       default:
         return {
           success: false,
-          message: `Unknown operation "${operation}". Supported: add, subtract, multiply, divide.`,
-          error: "InvalidOperation",
+          error: {
+            code: "InvalidOperation",
+            message: `Unknown operation "${operation}". Supported: add, subtract, multiply, divide.`
+          }
         };
     }
   }

@@ -6,6 +6,7 @@ export class DateTool implements Tool<unknown, string> {
   public readonly name = "date";
   public readonly description = "Retrieves the current system date.";
   public readonly category = "utility";
+  public readonly permissionLevel = "safe" as const;
   public readonly inputSchema = {
     type: "object",
     properties: {}

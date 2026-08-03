@@ -30,7 +30,10 @@ export class ToolManager {
       return {
         success: false,
         message: `Tool "${toolName}" not found.`,
-        error: `Tool "${toolName}" is not registered in the system.`,
+        error: {
+          code: "ToolNotFound",
+          message: `Tool "${toolName}" is not registered in the system.`,
+        },
       };
     }
 
@@ -41,7 +44,10 @@ export class ToolManager {
         return {
           success: false,
           message: `Validation failed for tool "${toolName}" arguments: ${validationError}`,
-          error: "ValidationError",
+          error: {
+            code: "ValidationError",
+            message: validationError,
+          },
         };
       }
     }

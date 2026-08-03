@@ -11,3 +11,6 @@ export * from "./datetime/dateTool";
 export * from "./system/systemTool";
 export * from "./filesystem/filesystemTool";
 export * from "./memory/memoryTool";
+export * from "./notes/notesTool";
+export * from "./search/webSearchTool";
+export * from "./weather/weatherTool";

@@ -6,6 +6,7 @@ export class TimeTool implements Tool<unknown, string> {
   public readonly name = "time";
   public readonly description = "Retrieves the current system time.";
   public readonly category = "utility";
+  public readonly permissionLevel = "safe" as const;
   public readonly inputSchema = {
     type: "object",
     properties: {}

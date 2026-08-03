@@ -14,6 +14,7 @@ export class MemoryTool implements Tool<MemoryInput, unknown> {
   public readonly name = "memory";
   public readonly description = "Allows storing and retrieving facts, user profiles, and preferences in persistent memory.";
   public readonly category = "memory";
+  public readonly permissionLevel = "safe" as const;
   public readonly inputSchema = {
     type: "object",
     properties: {
@@ -50,8 +51,10 @@ export class MemoryTool implements Tool<MemoryInput, unknown> {
           if (!fact) {
             return {
               success: false,
-              message: "Missing 'fact' parameter for action 'addFact'.",
-              error: "MissingParameter",
+              error: {
+                code: "MissingParameters",
+                message: "Missing 'fact' parameter for action 'addFact'."
+              }
             };
           }
           await context.memoryManager.addFact(fact);
@@ -72,8 +75,10 @@ export class MemoryTool implements Tool<MemoryInput, unknown> {
           if (!key || value === undefined) {
             return {
               success: false,
-              message: "Missing 'key' or 'value' parameter for action 'setPreference'.",
-              error: "MissingParameter",
+              error: {
+                code: "MissingParameters",
+                message: "Missing 'key' or 'value' parameter for action 'setPreference'."
+              }
             };
           }
           await context.memoryManager.setPreference(key, value);
@@ -86,8 +91,10 @@ export class MemoryTool implements Tool<MemoryInput, unknown> {
           if (!key) {
             return {
               success: false,
-              message: "Missing 'key' parameter for action 'getPreference'.",
-              error: "MissingParameter",
+              error: {
+                code: "MissingParameters",
+                message: "Missing 'key' parameter for action 'getPreference'."
+              }
             };
           }
           const preferences = await context.memoryManager.getPreferences();
@@ -104,8 +111,10 @@ export class MemoryTool implements Tool<MemoryInput, unknown> {
           if (!profile || typeof profile !== "object") {
             return {
               success: false,
-              message: "Missing or invalid 'profile' parameter for action 'setProfile'.",
-              error: "MissingParameter",
+              error: {
+                code: "MissingParameters",
+                message: "Missing or invalid 'profile' parameter for action 'setProfile'."
+              }
             };
           }
           await context.memoryManager.setProfile(profile);
@@ -125,15 +134,19 @@ export class MemoryTool implements Tool<MemoryInput, unknown> {
         default:
           return {
             success: false,
-            message: `Unknown memory action: "${action}"`,
-            error: "InvalidAction",
+            error: {
+              code: "InvalidAction",
+              message: `Unknown memory action: "${action}"`
+            }
           };
       }
     } catch (error: any) {
       return {
         success: false,
-        message: `Memory operation failed: ${error.message}`,
-        error: "MemoryError",
+        error: {
+          code: "MemoryError",
+          message: `Memory operation failed: ${error.message}`
+        }
       };
     }
   }

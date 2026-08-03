@@ -19,23 +19,27 @@ export class ToolExecutor {
     const tool = this.registry.getTool(toolName);
 
     if (!tool) {
-      const message = `Tool execution failed: Tool not found`;
-      Logger.warn(`${message} ("${toolName}")`);
+      const msg = `Tool "${toolName}" is not registered in the system.`;
+      Logger.warn(`Tool execution failed: ${msg}`);
       return {
         success: false,
-        message,
-        error: `Tool "${toolName}" is not registered in the system.`,
+        error: {
+          code: "ToolNotFound",
+          message: msg,
+        },
       };
     }
 
     try {
+      Logger.info(`Tool "${toolName}" started with arguments: ${JSON.stringify(args)}`);
       const result = await tool.execute(args, context);
       const duration = Date.now() - startTime;
 
       if (result.success) {
-        Logger.info(`Tool "${toolName}" executed successfully in ${duration}ms.`);
+        Logger.info(`Tool "${toolName}" executed successfully in ${duration}ms. Result: ${JSON.stringify(result.data)}`);
       } else {
-        Logger.warn(`Tool "${toolName}" returned failure in ${duration}ms: ${result.message}`);
+        const errDetail = result.error ? `${result.error.code}: ${result.error.message}` : result.message;
+        Logger.warn(`Tool "${toolName}" failed in ${duration}ms: ${errDetail}`);
       }
 
       return result;
@@ -46,8 +50,10 @@ export class ToolExecutor {
       
       return {
         success: false,
-        message: `Exception during execution of tool "${toolName}"`,
-        error: errorMessage,
+        error: {
+          code: "ExecutionException",
+          message: errorMessage,
+        },
       };
     }
   }

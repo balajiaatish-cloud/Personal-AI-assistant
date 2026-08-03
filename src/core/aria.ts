@@ -15,7 +15,10 @@ import {
   DateTool,
   MemoryTool,
   SystemTool,
-  FileSystemTool
+  FileSystemTool,
+  WebSearchTool,
+  WeatherTool,
+  NotesTool
 } from "../tools";
 
 export class ARIA {
@@ -50,6 +53,9 @@ export class ARIA {
     this.toolRegistry.register(new MemoryTool());
     this.toolRegistry.register(new SystemTool());
     this.toolRegistry.register(new FileSystemTool());
+    this.toolRegistry.register(new WebSearchTool());
+    this.toolRegistry.register(new WeatherTool());
+    this.toolRegistry.register(new NotesTool());
     
     // 3. Instantiate storage and memory layers
     this.storage = new JSONStorage(

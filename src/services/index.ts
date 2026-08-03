@@ -1,2 +1,4 @@
-// Services layer placeholder for future integrations (e.g., Search, Files, Weather, etc.)
-export {};
+export * from "./httpService";
+export * from "./searchService";
+export * from "./weatherService";
+export * from "./notesService";
