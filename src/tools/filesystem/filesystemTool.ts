@@ -1,5 +1,6 @@
 import { Tool } from "../base/tool";
 import { ToolResult } from "../base/toolResult";
+import { ToolContext } from "../base/toolContext";
 import fs from "fs/promises";
 import path from "path";
 
@@ -21,7 +22,7 @@ export class FileSystemTool implements Tool<FileSystemInput, unknown> {
     required: ["action", "targetPath"]
   };
 
-  public async execute(args: FileSystemInput): Promise<ToolResult<unknown>> {
+  public async execute(args: FileSystemInput, context: ToolContext): Promise<ToolResult<unknown>> {
     // 1. Parameter Validation
     if (!args || typeof args !== "object") {
       return {

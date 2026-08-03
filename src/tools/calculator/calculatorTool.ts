@@ -1,5 +1,6 @@
 import { Tool } from "../base/tool";
 import { ToolResult } from "../base/toolResult";
+import { ToolContext } from "../base/toolContext";
 
 export interface CalculatorInput {
   operation: "add" | "subtract" | "multiply" | "divide";
@@ -21,7 +22,7 @@ export class CalculatorTool implements Tool<CalculatorInput, number> {
     required: ["operation", "a", "b"]
   };
 
-  public async execute(args: CalculatorInput): Promise<ToolResult<number>> {
+  public async execute(args: CalculatorInput, context: ToolContext): Promise<ToolResult<number>> {
     // Basic structural validation
     if (!args || typeof args !== "object") {
       return {

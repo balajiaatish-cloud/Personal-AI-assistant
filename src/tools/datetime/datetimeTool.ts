@@ -1,5 +1,6 @@
 import { Tool } from "../base/tool";
 import { ToolResult } from "../base/toolResult";
+import { ToolContext } from "../base/toolContext";
 
 export interface DateTimeInput {
   action?: "date" | "time" | "iso" | "all";
@@ -22,7 +23,7 @@ export class DateTimeTool implements Tool<DateTimeInput, DateTimeOutput> {
     }
   };
 
-  public async execute(args?: DateTimeInput): Promise<ToolResult<DateTimeOutput>> {
+  public async execute(args: DateTimeInput | undefined, context: ToolContext): Promise<ToolResult<DateTimeOutput>> {
     const action = args?.action || "all";
     const now = new Date();
 

@@ -70,7 +70,7 @@ async function main() {
 
         try {
           console.log(`\nARIA: Executing tool "${toolName}"...`);
-          const result = await aria.toolExecutor.execute(toolName, args);
+          const result = await aria.toolExecutor.execute(toolName, args, aria.getToolContext());
           console.log(`\nTool Result:\n${JSON.stringify(result, null, 2)}`);
         } catch (err: any) {
           console.log(`\n[ERROR] Tool execution exception: ${err.message}`);

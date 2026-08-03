@@ -1,5 +1,6 @@
 import { Tool } from "../base/tool";
 import { ToolResult } from "../base/toolResult";
+import { ToolContext } from "../base/toolContext";
 import os from "os";
 
 export interface SystemOutput {
@@ -21,7 +22,7 @@ export class SystemTool implements Tool<unknown, SystemOutput> {
   public readonly description = "Retrieves basic runtime information about the system.";
   public readonly category = "system";
 
-  public async execute(): Promise<ToolResult<SystemOutput>> {
+  public async execute(args: unknown, context: ToolContext): Promise<ToolResult<SystemOutput>> {
     const uptime = os.uptime();
     const totalMem = os.totalmem();
     const freeMem = os.freemem();

@@ -1,5 +1,6 @@
 import { ToolRegistry } from "../base/registry";
 import { ToolResult } from "../base/toolResult";
+import { ToolContext } from "../base/toolContext";
 import { Logger } from "../../logger/logger";
 
 export class ToolExecutor {
@@ -13,7 +14,7 @@ export class ToolExecutor {
    * Executes a registered tool by its name with the provided arguments.
    * Catches all exceptions and guarantees return of a standardized ToolResult.
    */
-  public async execute(toolName: string, args: unknown): Promise<ToolResult<unknown>> {
+  public async execute(toolName: string, args: unknown, context: ToolContext): Promise<ToolResult<unknown>> {
     const startTime = Date.now();
     const tool = this.registry.getTool(toolName);
 
@@ -28,7 +29,7 @@ export class ToolExecutor {
     }
 
     try {
-      const result = await tool.execute(args);
+      const result = await tool.execute(args, context);
       const duration = Date.now() - startTime;
 
       if (result.success) {
