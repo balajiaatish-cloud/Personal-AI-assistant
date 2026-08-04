@@ -37,6 +37,7 @@ export class ARIA {
   constructor() {
     this.config = new ConfigManager();
     const settings = this.config.getSettings();
+    Logger.isDebugEnabled = settings.debug;
 
     this.provider = AIProviderFactory.createProvider();
 

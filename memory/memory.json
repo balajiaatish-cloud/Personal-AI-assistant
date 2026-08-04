@@ -1,7 +1,13 @@
 {
   "facts": [
-    "User's favorite color is blue"
+    "User's favorite color is blue",
+    "Likes coding agentic software"
   ],
-  "userProfile": {},
-  "preferences": {}
+  "userProfile": {
+    "name": "Aatish",
+    "role": "Developer"
+  },
+  "preferences": {
+    "theme": "dark"
+  }
 }

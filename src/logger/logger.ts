@@ -1,6 +1,10 @@
 export class Logger {
+  public static isDebugEnabled = false;
+
   static debug(message: string, ...args: any[]): void {
-    console.debug(`[DEBUG] ${message}`, ...args);
+    if (this.isDebugEnabled) {
+      console.debug(`[DEBUG] ${message}`, ...args);
+    }
   }
 
   static info(message: string, ...args: any[]): void {
@@ -15,3 +19,4 @@ export class Logger {
     console.error(`[ERROR] ${message}`, ...args);
   }
 }
+

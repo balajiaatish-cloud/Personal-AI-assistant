@@ -4,12 +4,14 @@ import { Logger } from "../logger/logger";
 import { formatError } from "../utils";
 import { ToolManager, ToolContext } from "../tools";
 import { ConfigManager } from "../config";
+import { ContextManager } from "./contextManager";
 
 export class ConversationManager {
   private memoryManager: MemoryManager;
   private provider: AIProvider;
   private toolManager: ToolManager;
   private config: ConfigManager;
+  private contextManager: ContextManager;
 
   constructor(
     memoryManager: MemoryManager,
@@ -21,6 +23,7 @@ export class ConversationManager {
     this.provider = provider;
     this.toolManager = toolManager;
     this.config = config;
+    this.contextManager = new ContextManager(memoryManager, config);
   }
 
 
@@ -52,8 +55,11 @@ export class ConversationManager {
         turns++;
         const toolsList = this.toolManager.getRegistry().listTools();
 
-        // 2. Call the provider with history context and tools list
-        const response = await this.provider.chat(messageText, history, toolsList);
+        // Optimize context history using the ContextManager
+        const optimizedHistory = await this.contextManager.buildContext(history);
+
+        // 2. Call the provider with optimized history context and tools list
+        const response = await this.provider.chat(messageText, optimizedHistory, toolsList);
 
         if (response.toolCalls && response.toolCalls.length > 0) {
           // Save the assistant's response that requested tool calls
@@ -61,8 +67,16 @@ export class ConversationManager {
             toolCalls: response.toolCalls,
           });
 
+          if (this.config.getSettings().debug) {
+            Logger.debug(`[ConversationManager] Requested tools: ${response.toolCalls.map(tc => tc.name).join(", ")}`);
+          }
+
+          let executedCount = 0;
+          let failedCount = 0;
+
           // 3. Execute the requested tools
           for (const toolCall of response.toolCalls) {
+            const startToolTime = Date.now();
             Logger.info(`ConversationManager executing tool "${toolCall.name}" with args: ${JSON.stringify(toolCall.arguments)}`);
 
             const context: ToolContext = {
@@ -72,12 +86,43 @@ export class ConversationManager {
               logger: Logger,
             };
 
-            const result = await this.toolManager.execute(toolCall.name, toolCall.arguments, context);
+            try {
+              const result = await this.toolManager.execute(toolCall.name, toolCall.arguments, context);
+              const toolDuration = Date.now() - startToolTime;
+              executedCount++;
 
-            // 4. Save tool response message to memory
-            await this.memoryManager.saveMessage("tool", JSON.stringify(result), {
-              toolName: toolCall.name,
-            });
+              if (this.config.getSettings().debug) {
+                Logger.debug(`[ConversationManager] Executed tool "${toolCall.name}". Duration: ${toolDuration}ms. Success: ${result.success}`);
+              }
+
+              if (!result.success) {
+                failedCount++;
+                if (this.config.getSettings().debug) {
+                  Logger.debug(`[ConversationManager] Tool "${toolCall.name}" failed: ${result.message || result.error?.message}`);
+                }
+              }
+
+              // 4. Save tool response message to memory
+              await this.memoryManager.saveMessage("tool", JSON.stringify(result), {
+                toolName: toolCall.name,
+              });
+            } catch (err: any) {
+              failedCount++;
+              if (this.config.getSettings().debug) {
+                Logger.debug(`[ConversationManager] Exception executing tool "${toolCall.name}": ${err.message}`);
+              }
+              // Save failed tool result to memory so the LLM knows it failed
+              await this.memoryManager.saveMessage("tool", JSON.stringify({
+                success: false,
+                message: `Tool execution failed with error: ${err.message}`
+              }), {
+                toolName: toolCall.name,
+              });
+            }
+          }
+
+          if (this.config.getSettings().debug) {
+            Logger.debug(`[ConversationManager] Tool Turn Execution Statistics: Executed: ${executedCount}, Failed: ${failedCount}`);
           }
 
           // Reload the updated history context for the next turn

@@ -5,319 +5,869 @@
     {
       "id": "f1ed093d-7962-4471-8c86-fd1fa62c9971",
       "createdAt": "2026-07-29T07:03:09.208Z",
-      "updatedAt": "2026-08-01T15:14:07.341Z",
+      "updatedAt": "2026-08-04T09:28:46.102Z",
       "messages": [
         {
-          "id": "9969329c-d3e9-444d-854d-9a7ea44b4bcc",
+          "id": "a911691a-e247-46f4-9a6a-0a1a079e4fd0",
           "role": "user",
-          "content": "Hello, my favorite color is crimson. Please remember that.",
-          "timestamp": "2026-07-29T07:03:09.217Z"
+          "content": "What is the current time?",
+          "timestamp": "2026-08-04T09:15:02.268Z"
         },
         {
-          "id": "2623bb13-f838-41ba-9c29-b7ec3e852c2d",
+          "id": "23315597-f89c-4dd0-9ef0-afaff378776a",
           "role": "assistant",
-          "content": "Hello! Crimson is a fantastic, bold choice. \n\nI've made a note of it and will remember that your favorite color is crimson. How can I help you today?",
-          "timestamp": "2026-07-29T07:03:11.857Z"
+          "content": "",
+          "timestamp": "2026-08-04T09:16:32.822Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "time",
+                "arguments": {}
+              }
+            ]
+          }
         },
         {
-          "id": "77d56d6a-b238-4ca1-b012-9395d3e1d73f",
-          "role": "user",
-          "content": "What is my favorite color?",
-          "timestamp": "2026-07-29T07:03:11.868Z"
+          "id": "3230e755-d906-4405-97d4-c2cebf284d74",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":\"2:46:32 PM\",\"message\":\"Current time: 2:46:32 PM\"}",
+          "timestamp": "2026-08-04T09:16:32.900Z",
+          "metadata": {
+            "toolName": "time"
+          }
         },
         {
-          "id": "c5f4bacb-e87d-40f2-bdb1-d15eb5ad2af3",
+          "id": "5f938b1a-3489-4237-a2dd-fdbda7c11012",
           "role": "assistant",
-          "content": "Your favorite color is **crimson**!",
-          "timestamp": "2026-07-29T07:03:14.114Z"
+          "content": "The current time is 2:46:32 PM.",
+          "timestamp": "2026-08-04T09:16:42.639Z"
         },
         {
-          "id": "e8a35b1a-1686-420d-bcb3-a1d376cc68fd",
+          "id": "14fc8d48-e3fc-44b4-945d-9bbba3105b5b",
           "role": "user",
-          "content": "Introduce yourself as ARIA.",
-          "timestamp": "2026-07-29T08:43:38.848Z"
+          "content": "Add 158 and 242.",
+          "timestamp": "2026-08-04T09:16:42.645Z"
         },
         {
-          "id": "823b057c-a59d-43e2-b9b4-936b945d8ae6",
+          "id": "24379b77-9862-428c-9322-c395dd3930f4",
           "role": "assistant",
-          "content": "Hello! I am **ARIA**, your AI assistant. It is a pleasure to assist you! \n\nWhether you need help answering questions, organizing ideas, writing, or solving problems, I'm here for you. And of course, I still have it saved in my memory that your favorite color is crimson! \n\nHow can I help you today?",
-          "timestamp": "2026-07-29T08:43:42.147Z"
+          "content": "",
+          "timestamp": "2026-08-04T09:17:04.683Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "calculator",
+                "arguments": {
+                  "a": 158,
+                  "b": 242,
+                  "operation": "add"
+                }
+              }
+            ]
+          }
         },
         {
-          "id": "4c315382-9e96-41b9-892c-7014ab894c02",
-          "role": "user",
-          "content": "Introduce yourself as ARIA.",
-          "timestamp": "2026-07-29T08:45:06.685Z"
+          "id": "bc8c6f65-f925-4a16-964d-de76e4219238",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":400,\"message\":\"Successfully added 158 and 242\"}",
+          "timestamp": "2026-08-04T09:17:04.688Z",
+          "metadata": {
+            "toolName": "calculator"
+          }
         },
         {
-          "id": "8e70610c-94be-44a5-8359-ca5b27fb28b0",
+          "id": "2384deb1-1c9d-4b17-8f5b-0761cd2270d2",
           "role": "assistant",
-          "content": "Hello! I am **ARIA**, your AI assistant. \n\nI'm here to help you with anything you need—from answering questions and brainstorming ideas to writing, problem-solving, or just having a great conversation. \n\nHow can I assist you today?",
-          "timestamp": "2026-07-29T08:45:10.217Z"
+          "content": "158 + 242 is 400.",
+          "timestamp": "2026-08-04T09:17:17.190Z"
         },
         {
-          "id": "f4cb9da6-52ec-4c67-a9f9-aacab7d1d749",
+          "id": "f50d4341-8f21-4888-8ec4-0f13581eb3fc",
           "role": "user",
-          "content": "hello",
-          "timestamp": "2026-07-29T09:00:45.919Z"
+          "content": "What is my name according to your memory profile?",
+          "timestamp": "2026-08-04T09:17:17.196Z"
         },
         {
-          "id": "a88f116f-68b1-4781-bf91-ea56fae64a77",
-          "role": "user",
-          "content": "What was the favorite color I mentioned earlier?",
-          "timestamp": "2026-07-29T09:26:08.120Z"
-        },
-        {
-          "id": "3e654d73-c2b5-4877-9183-41a0eccfaeb5",
+          "id": "89a8f2b0-3d3f-4957-9e5b-b7ee7505022e",
           "role": "assistant",
-          "content": "Hello! The favorite color you mentioned earlier is **crimson**.",
-          "timestamp": "2026-07-29T09:26:10.391Z"
+          "content": "",
+          "timestamp": "2026-08-04T09:17:40.906Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "memory",
+                "arguments": {
+                  "action": "getProfile"
+                }
+              }
+            ]
+          }
         },
         {
-          "id": "136ac9ed-8738-45c9-b877-785c967bcce6",
-          "role": "user",
-          "content": "hi",
-          "timestamp": "2026-07-29T09:27:06.039Z"
+          "id": "cf7200c2-d9e4-43b0-a7d9-18e63819e8bf",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":{\"name\":\"Aatish\",\"role\":\"Developer\"},\"message\":\"Retrieved user profile from global memory.\"}",
+          "timestamp": "2026-08-04T09:17:40.910Z",
+          "metadata": {
+            "toolName": "memory"
+          }
         },
         {
-          "id": "a1eefbc9-8753-4a17-ae39-609d3a0ed2ad",
+          "id": "aa649790-9dc7-4076-8216-b51304f22c44",
           "role": "assistant",
-          "content": "Hello! How can I help you today?",
-          "timestamp": "2026-07-29T09:27:08.812Z"
+          "content": "Your name according to my memory profile is Aatish.",
+          "timestamp": "2026-08-04T09:17:51.801Z"
         },
         {
-          "id": "d2ac06a2-d415-4f7a-ae24-980cb6ab0ade",
+          "id": "b33b175e-99e6-42b7-a0ed-52583b3ec5a0",
           "role": "user",
-          "content": "my favourite car is m5 cs",
-          "timestamp": "2026-07-29T09:29:26.139Z"
+          "content": "What is the current date?",
+          "timestamp": "2026-08-04T09:17:51.805Z"
         },
         {
-          "id": "3cdb7c12-a2a4-4ec0-8f7d-a9b9cec388df",
+          "id": "a3b71546-3795-44f6-961b-5edf2c331de9",
           "role": "assistant",
-          "content": "The BMW M5 CS is an absolute masterpiece! With its 627-horsepower twin-turbo V8, lightweight carbon-fiber components, and track-tuned handling, it's widely considered one of the greatest super-sedans ever built. \n\nI've made a note of it alongside your favorite color, crimson. (An M5 CS in a deep crimson finish would look incredible!)\n\nWhat's your favorite thing about the M5 CS—the performance, the design, or something else?",
-          "timestamp": "2026-07-29T09:29:36.332Z"
+          "content": "",
+          "timestamp": "2026-08-04T09:17:57.518Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "date",
+                "arguments": {}
+              }
+            ]
+          }
         },
         {
-          "id": "3413bec1-39c5-4ebb-bc25-070e6772186f",
-          "role": "user",
-          "content": "what is my favourite color and car?",
-          "timestamp": "2026-07-29T09:30:50.775Z"
+          "id": "cc026014-c6ea-4b3f-b70f-a01290db4c66",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":\"8/4/2026\",\"message\":\"Current date: 8/4/2026\"}",
+          "timestamp": "2026-08-04T09:17:57.526Z",
+          "metadata": {
+            "toolName": "date"
+          }
         },
         {
-          "id": "886646d4-c9cd-48f4-b734-733bb9e49a26",
+          "id": "661c688f-879a-48b0-8ceb-737425ff1864",
           "role": "assistant",
-          "content": "Your favorite color is **crimson**, and your favorite car is the **BMW M5 CS**!",
-          "timestamp": "2026-07-29T09:30:53.283Z"
+          "content": "The current date is 8/4/2026.",
+          "timestamp": "2026-08-04T09:18:06.035Z"
         },
         {
-          "id": "cb2e80f4-33eb-4cc3-93ab-e570053a69f6",
+          "id": "8ad99bca-9796-4dbb-9b1a-c929050ca81c",
           "role": "user",
-          "content": "how are you?",
-          "timestamp": "2026-07-29T09:51:05.543Z"
+          "content": "What coding topic do I like?",
+          "timestamp": "2026-08-04T09:18:06.040Z"
         },
         {
-          "id": "e7a9858e-1e0d-497b-8235-bf1be3b4125b",
+          "id": "3fa17523-9486-44e6-819f-711b78c4db14",
           "role": "assistant",
-          "content": "I'm doing great, thank you for asking! As an AI, I'm always energized and ready to help, chat, or brainstorm. \n\nHow are you doing today?",
-          "timestamp": "2026-07-29T09:51:08.060Z"
+          "content": "You like coding agentic software.",
+          "timestamp": "2026-08-04T09:18:33.340Z"
         },
         {
-          "id": "b656c610-0954-41b0-b91b-121585b01ce1",
+          "id": "5d312221-6756-40d9-9054-8a9a6a011a64",
           "role": "user",
-          "content": "what is newton's first law?",
-          "timestamp": "2026-07-29T09:51:23.853Z"
+          "content": "Subtract 500 from 1200.",
+          "timestamp": "2026-08-04T09:18:33.347Z"
         },
         {
-          "id": "90f02b19-72ab-45c1-ac97-2bc5e0a377fd",
+          "id": "3c61a15a-a19f-4fd1-a6b0-79a3b7a297cb",
           "role": "assistant",
-          "content": "**Newton's First Law of Motion** (often called the **Law of Inertia**) states that:\n\n> **An object will remain at rest, or keep moving at a constant speed in a straight line, unless acted upon by an external net force.**\n\nIn simple terms, this means two main things:\n\n1. **If something is sitting still**, it won't start moving on its own. (e.g., A parked car stays parked until an engine or a push moves it.)\n2. **If something is moving**, it wants to keep moving forever at the same speed and in the same direction unless a force stops or redirects it. \n\n### Why don't things move forever on Earth?\nIn everyday life, objects eventually stop because of invisible forces like **friction** and **air resistance**. If you throw a ball in outer space (where there is no air or gravity), it will keep flying in a straight line forever until it hits something or gets pulled by a planet's gravity.\n\n### A Real-World Example:\nThink about being inside a fast car—like your favorite **BMW M5 CS**. When the driver slams on the brakes, your body lurches forward. That happens because your body was moving at 60 mph, and according to Newton's First Law, your body *wants to keep moving* at 60 mph even though the car stopped! Your seatbelt provides the external force that stops you.",
-          "timestamp": "2026-07-29T09:51:29.032Z"
+          "content": "",
+          "timestamp": "2026-08-04T09:19:02.698Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "calculator",
+                "arguments": {
+                  "a": 1200,
+                  "b": 500,
+                  "operation": "subtract"
+                }
+              }
+            ]
+          }
         },
         {
-          "id": "cc570d9b-a968-4f37-9f80-abc3cc6fb047",
-          "role": "user",
-          "content": "what was my favorite car?",
-          "timestamp": "2026-07-29T12:28:03.064Z"
+          "id": "0c3b43e2-a679-4d88-a996-e0169b65d7f9",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":700,\"message\":\"Successfully subtracted 500 from 1200\"}",
+          "timestamp": "2026-08-04T09:19:02.704Z",
+          "metadata": {
+            "toolName": "calculator"
+          }
         },
         {
-          "id": "d34cf440-8d5c-4f7c-a9bd-8c9d282326d6",
+          "id": "fc71dfde-a817-4cb8-ac71-dc15e289f01b",
           "role": "assistant",
-          "content": "Your favorite car is the **BMW M5 CS**!",
-          "timestamp": "2026-07-29T12:28:05.200Z"
+          "content": "700",
+          "timestamp": "2026-08-04T09:19:15.535Z"
         },
         {
-          "id": "5f1e8b2f-3438-4435-8948-bc2ca6069ef3",
+          "id": "c8ef2196-a670-42fe-805a-39cf52155998",
           "role": "user",
-          "content": "is my favorite color black?",
-          "timestamp": "2026-07-29T12:28:23.395Z"
+          "content": "What is the current time?",
+          "timestamp": "2026-08-04T09:19:15.540Z"
         },
         {
-          "id": "80f5fac2-4ed4-4d2e-bb00-84c11e92a396",
+          "id": "a25f1acb-ee31-4e39-8d25-c11cc2fb2437",
           "role": "assistant",
-          "content": "No, your favorite color is **crimson**!",
-          "timestamp": "2026-07-29T12:28:25.064Z"
+          "content": "",
+          "timestamp": "2026-08-04T09:19:23.866Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "time",
+                "arguments": {}
+              }
+            ]
+          }
         },
         {
-          "id": "2c744aef-e0a6-48da-930b-df90efc69dd5",
-          "role": "user",
-          "content": "what is 10*5?",
-          "timestamp": "2026-07-29T12:28:34.466Z"
+          "id": "a7eeec8f-51e3-412a-b0e3-69735e34f014",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":\"2:49:23 PM\",\"message\":\"Current time: 2:49:23 PM\"}",
+          "timestamp": "2026-08-04T09:19:23.871Z",
+          "metadata": {
+            "toolName": "time"
+          }
         },
         {
-          "id": "c797209f-9f9d-4650-9244-6ac81b53a3c4",
+          "id": "432d9f66-d36b-4aaf-a7e7-7b2da1088b01",
           "role": "assistant",
-          "content": "10 * 5 is **50**!",
-          "timestamp": "2026-07-29T12:28:36.316Z"
+          "content": "The current time is 2:49:23 PM.",
+          "timestamp": "2026-08-04T09:19:34.920Z"
         },
         {
-          "id": "7ad9bc29-b7c4-4e5a-8763-aa0ef85196d2",
+          "id": "67f14370-90a3-4ea7-b777-b1cf91aa171e",
           "role": "user",
-          "content": "how is weather in bangalore today?",
-          "timestamp": "2026-07-29T12:29:08.801Z"
+          "content": "Add 158 and 242.",
+          "timestamp": "2026-08-04T09:19:34.927Z"
         },
         {
-          "id": "9584b752-f0be-4184-a0c5-70c6002b7780",
+          "id": "b708a0ea-fad6-4444-8633-ab44c4fc5d11",
           "role": "assistant",
-          "content": "I don't have access to real-time weather data. \n\nTo get the most accurate and up-to-date weather for Bangalore today, I recommend checking a weather app, Google, or a weather website like Weather.com or AccuWeather!",
-          "timestamp": "2026-07-29T12:29:12.177Z"
+          "content": "",
+          "timestamp": "2026-08-04T09:20:02.928Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "calculator",
+                "arguments": {
+                  "a": 158,
+                  "b": 242,
+                  "operation": "add"
+                }
+              }
+            ]
+          }
         },
         {
-          "id": "8fec8ca8-c1f6-4a73-b0d2-a49ed80fe005",
-          "role": "user",
-          "content": "hi",
-          "timestamp": "2026-07-29T12:49:59.728Z"
+          "id": "dc4ec2be-b1f7-4746-90c0-648ea42e1535",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":400,\"message\":\"Successfully added 158 and 242\"}",
+          "timestamp": "2026-08-04T09:20:02.934Z",
+          "metadata": {
+            "toolName": "calculator"
+          }
         },
         {
-          "id": "104a6e15-bdb6-48bc-8791-7ffed31f79aa",
+          "id": "5ab3f91b-2c4a-46e9-a154-e7449b44d37b",
           "role": "assistant",
-          "content": "Hello again! How can I help you now?",
-          "timestamp": "2026-07-29T12:50:02.642Z"
+          "content": "158 + 242 is 400.",
+          "timestamp": "2026-08-04T09:20:18.584Z"
         },
         {
-          "id": "571156eb-aad3-4cbd-9415-6f6685e08f91",
+          "id": "3c35584c-1970-49ef-a665-9614529ac2aa",
           "role": "user",
-          "content": "what is time now?",
-          "timestamp": "2026-07-29T12:50:40.664Z"
+          "content": "What is my name according to your memory profile?",
+          "timestamp": "2026-08-04T09:20:18.590Z"
         },
         {
-          "id": "eeb2aa3b-d4d6-4817-bb47-351f68b520a8",
+          "id": "c80656a5-d4aa-4af9-961e-a2eef13a6542",
           "role": "assistant",
-          "content": "I don't have access to real-time information or your local timezone, so I can't tell you the exact current time. \n\nPlease check the clock on your device or phone for the accurate time!",
-          "timestamp": "2026-07-29T12:50:57.361Z"
+          "content": "",
+          "timestamp": "2026-08-04T09:20:56.852Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "memory",
+                "arguments": {
+                  "action": "getProfile"
+                }
+              }
+            ]
+          }
         },
         {
-          "id": "63a8b571-7487-4f67-843e-73c0dc090b19",
-          "role": "user",
-          "content": "what is today's date?",
-          "timestamp": "2026-07-29T12:51:23.352Z"
+          "id": "0105fbef-1409-468c-a953-bb802b8aef7c",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":{\"name\":\"Aatish\",\"role\":\"Developer\"},\"message\":\"Retrieved user profile from global memory.\"}",
+          "timestamp": "2026-08-04T09:20:56.856Z",
+          "metadata": {
+            "toolName": "memory"
+          }
         },
         {
-          "id": "4817ce5b-f0a0-4b7b-9372-636f3fa5b85b",
+          "id": "46af3a6a-c114-4b16-850e-c2ba4d1b211c",
           "role": "assistant",
-          "content": "I don't have access to real-time information, so I can't tell you today's exact date. \n\nPlease check the date display on your phone, computer, or a calendar!",
-          "timestamp": "2026-07-29T12:51:26.808Z"
+          "content": "Your name according to my memory profile is Aatish.",
+          "timestamp": "2026-08-04T09:21:21.078Z"
         },
         {
-          "id": "aa3d814c-f575-451f-a643-4686274173f5",
+          "id": "c0865e14-49fd-4a0c-9538-91074d860134",
           "role": "user",
-          "content": "how many drives are there on this computer",
-          "timestamp": "2026-07-29T13:26:53.431Z"
+          "content": "What is the current date?",
+          "timestamp": "2026-08-04T09:21:21.083Z"
         },
         {
-          "id": "c0ef0f92-5d4e-4388-bb51-c9148e5e5ceb",
+          "id": "5232d3a3-c488-4375-91a4-85f4ae7c207b",
           "role": "assistant",
-          "content": "I don't have access to your local hardware or operating system, so I can't check how many drives are installed on your computer. \n\nHowever, you can easily check yourself depending on your operating system:\n\n### **On Windows:**\n1. Open **File Explorer** (press `Windows Key + E`).\n2. Click on **This PC** in the left sidebar. \n3. Look under the **Devices and drives** section to see all your connected drives (C:, D:, etc.).\n*(Or right-click the Start button and select **Disk Management** to see all physical drives and partitions).*\n\n### **On Mac:**\n1. Open **Finder**.\n2. Press `Command + Shift + C` to see all connected storage locations.\n*(Or press `Command + Space`, type **Disk Utility**, and press Enter to see detailed information about your drives).*\n\n### **On Linux:**\n* Open a terminal and type: `lsblk` or `df -h` and press Enter.",
-          "timestamp": "2026-07-29T13:26:57.402Z"
+          "content": "",
+          "timestamp": "2026-08-04T09:21:27.349Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "date",
+                "arguments": {}
+              }
+            ]
+          }
         },
         {
-          "id": "06d4810a-c6dd-4d99-8aa1-11542d81edaa",
-          "role": "user",
-          "content": "find the file name starting with TAX",
-          "timestamp": "2026-07-29T13:29:25.299Z"
+          "id": "a2a6ff2b-54ea-415f-b340-00e0d04b6380",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":\"8/4/2026\",\"message\":\"Current date: 8/4/2026\"}",
+          "timestamp": "2026-08-04T09:21:27.354Z",
+          "metadata": {
+            "toolName": "date"
+          }
         },
         {
-          "id": "e41e47ab-2788-405d-8cfe-276ae124f586",
+          "id": "9e211b72-4992-4aed-ad6d-6cf0d74fb14d",
           "role": "assistant",
-          "content": "I don't have access to your local files or computer, so I can't search your storage directly. \n\nHowever, you can easily find files starting with **TAX** on your computer using these steps:\n\n---\n\n### **On Windows:**\n1. Open **File Explorer** (press `Windows Key + E`).\n2. Go to **This PC** (or the specific drive/folder you want to search).\n3. In the search bar at the top-right corner, type:\n   ```text\n   TAX*\n   ```\n   *(The `*` acts as a wildcard, finding any file that begins with \"TAX\", such as `TAX_2023.pdf` or `TAX_Return.docx`).*\n\n**Using Command Prompt (Alternative):**\n1. Press `Win + R`, type `cmd`, and press **Enter**.\n2. Type `cd \\` and press **Enter** to go to the main drive root.\n3. Type:\n   ```cmd\n   dir TAX* /s\n   ```\n\n---\n\n### **On Mac:**\n1. Open **Finder** or press `Command + Space` to open **Spotlight Search**.\n2. Type:\n   ```text\n   TAX\n   ```\n3. In Finder search, select \"Name matches\" or filter by **This Mac** at the top.\n\n**Using Terminal (Alternative):**\n1. Press `Command + Space`, type `Terminal`, and press **Enter**.\n2. Type:\n   ```bash\n   find ~ -iname \"TAX*\"\n   ```\n\n---\n\n### **On Linux:**\nOpen a terminal and run:\n```bash\nfind ~ -iname \"TAX*\"\n```",
-          "timestamp": "2026-07-29T13:29:30.145Z"
+          "content": "The current date is 8/4/2026.",
+          "timestamp": "2026-08-04T09:21:35.883Z"
         },
         {
-          "id": "f683a17f-df1a-432b-9ec6-b1d133b733ce",
+          "id": "2289a5c1-e315-4777-b978-8762a5500779",
           "role": "user",
-          "content": "what are my favourite things",
-          "timestamp": "2026-07-29T13:30:01.280Z"
+          "content": "What coding topic do I like?",
+          "timestamp": "2026-08-04T09:21:35.889Z"
         },
         {
-          "id": "b03467f3-e20a-4abb-847e-51b5d444b7c8",
-          "role": "user",
-          "content": "hi",
-          "timestamp": "2026-07-29T13:34:40.283Z"
-        },
-        {
-          "id": "cc767144-18d5-4c77-8fd9-27d42d6461fd",
-          "role": "user",
-          "content": "hi",
-          "timestamp": "2026-07-29T13:46:05.694Z"
-        },
-        {
-          "id": "6ab564cf-40d8-4df0-8c30-28a6e3d4db97",
-          "role": "user",
-          "content": "hi",
-          "timestamp": "2026-07-29T13:54:17.786Z"
-        },
-        {
-          "id": "5facd90f-f888-45b3-9886-ac5146fd1c5e",
-          "role": "user",
-          "content": "who are you?",
-          "timestamp": "2026-07-30T15:48:17.818Z"
-        },
-        {
-          "id": "a0390655-42e4-4333-9bc9-f9ecbd24ac50",
-          "role": "user",
-          "content": "hi",
-          "timestamp": "2026-07-30T16:52:04.472Z"
-        },
-        {
-          "id": "25d1cd2f-e72b-44d0-b5bd-e4e031e75507",
+          "id": "7b246565-d246-4518-a91c-9d96f01ca9e5",
           "role": "assistant",
-          "content": "I am **Gemma 4**, a Large Language Model developed by Google DeepMind. I am an open weights model designed to process information, understand context, and generate helpful text responses.\n\nIn this conversation, you may also recognize me as **ARIA**, your AI assistant!",
-          "timestamp": "2026-07-30T16:53:46.394Z"
+          "content": "Based on your profile, you like coding agentic software.",
+          "timestamp": "2026-08-04T09:22:07.692Z"
         },
         {
-          "id": "78649e30-6909-4791-8495-cf243a08ce3a",
+          "id": "94ec1751-e87d-4d8e-90dc-a7eac4dd1cd3",
           "role": "user",
-          "content": "can you read my files in D:\\ ?",
-          "timestamp": "2026-07-30T16:54:43.136Z"
+          "content": "Subtract 500 from 1200.",
+          "timestamp": "2026-08-04T09:22:07.697Z"
         },
         {
-          "id": "ac275a26-c817-45f0-9b03-b62ea02e46c8",
+          "id": "0173400a-cf8d-4a42-a273-b9bc2dc03e2a",
           "role": "assistant",
-          "content": "No, I cannot read your files on your computer, including those on the `D:\\` drive.\n\nAs an AI model, I operate remotely and do not have access to your personal local file system, hard drives, or private folders for security and privacy reasons. My interactions are limited to the text you provide directly in this chat window.\n\nIf you need help with a specific file, you would need to copy the content of the file and paste it here, or use tools on your own computer to search those files.",
-          "timestamp": "2026-07-30T16:55:29.712Z"
+          "content": "",
+          "timestamp": "2026-08-04T09:22:25.823Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "calculator",
+                "arguments": {
+                  "a": 1200,
+                  "b": 500,
+                  "operation": "subtract"
+                }
+              }
+            ]
+          }
         },
         {
-          "id": "b31363da-f792-4eca-9bf1-f0d2c9be2dcc",
+          "id": "d4bb8bef-aaf7-4e7e-ac02-87f01ace40fb",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":700,\"message\":\"Successfully subtracted 500 from 1200\"}",
+          "timestamp": "2026-08-04T09:22:25.829Z",
+          "metadata": {
+            "toolName": "calculator"
+          }
+        },
+        {
+          "id": "397f002a-d5a3-47dd-bd69-6c10f84f2d6b",
+          "role": "assistant",
+          "content": "700",
+          "timestamp": "2026-08-04T09:22:36.844Z"
+        },
+        {
+          "id": "1ab9c747-97f6-4e6b-97fe-a67ef69dd53d",
           "role": "user",
-          "content": "/bye",
-          "timestamp": "2026-07-30T16:57:53.801Z"
+          "content": "What is the current time?",
+          "timestamp": "2026-08-04T09:22:36.850Z"
         },
         {
-          "id": "7a952c0a-58a7-40b0-910d-81c144d71ac3",
+          "id": "d18845ac-60bc-4eb0-9ea7-527bc6e79e23",
           "role": "assistant",
-          "content": "Goodbye! Have a great day. If you need anything else in the future, feel free to ask!",
-          "timestamp": "2026-07-30T16:58:03.254Z"
+          "content": "",
+          "timestamp": "2026-08-04T09:22:43.210Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "time",
+                "arguments": {}
+              }
+            ]
+          }
         },
         {
-          "id": "d1809412-7d04-4a92-8c72-be310e6237de",
+          "id": "d7f9fee5-ad06-4992-bc0a-b76a85da0007",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":\"2:52:43 PM\",\"message\":\"Current time: 2:52:43 PM\"}",
+          "timestamp": "2026-08-04T09:22:43.214Z",
+          "metadata": {
+            "toolName": "time"
+          }
+        },
+        {
+          "id": "d240e2d0-76ba-4ed4-b7f5-aa87f39a865f",
+          "role": "assistant",
+          "content": "The current time is 2:52:43 PM.",
+          "timestamp": "2026-08-04T09:22:51.924Z"
+        },
+        {
+          "id": "18cf7d3b-dd3a-4763-97a0-73643bf01f6a",
           "role": "user",
-          "content": "good",
-          "timestamp": "2026-08-01T15:13:04.200Z"
+          "content": "Add 158 and 242.",
+          "timestamp": "2026-08-04T09:22:51.929Z"
         },
         {
-          "id": "9276b4d5-1044-4484-9038-21d750614bb4",
+          "id": "ef7dedde-4331-442e-9d29-09cc363188f7",
           "role": "assistant",
-          "content": "I'm glad! Take care.",
-          "timestamp": "2026-08-01T15:14:07.341Z"
+          "content": "",
+          "timestamp": "2026-08-04T09:23:13.817Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "calculator",
+                "arguments": {
+                  "a": 158,
+                  "b": 242,
+                  "operation": "add"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "43dd18ca-6983-44ba-8a10-c2214538602c",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":400,\"message\":\"Successfully added 158 and 242\"}",
+          "timestamp": "2026-08-04T09:23:13.821Z",
+          "metadata": {
+            "toolName": "calculator"
+          }
+        },
+        {
+          "id": "714530d2-afa7-4714-b0a1-06acab866d66",
+          "role": "assistant",
+          "content": "158 + 242 is 400.",
+          "timestamp": "2026-08-04T09:23:25.471Z"
+        },
+        {
+          "id": "8212138c-05ad-4f24-8fe9-13e7bdb8fb90",
+          "role": "user",
+          "content": "What is my name according to your memory profile?",
+          "timestamp": "2026-08-04T09:23:25.476Z"
+        },
+        {
+          "id": "8aa1517e-7929-4dd4-b2db-08a467e0b180",
+          "role": "assistant",
+          "content": "",
+          "timestamp": "2026-08-04T09:23:50.458Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "memory",
+                "arguments": {
+                  "action": "getProfile"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "d7d0527b-78f6-49a9-afbe-577cbc0cf044",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":{\"name\":\"Aatish\",\"role\":\"Developer\"},\"message\":\"Retrieved user profile from global memory.\"}",
+          "timestamp": "2026-08-04T09:23:50.462Z",
+          "metadata": {
+            "toolName": "memory"
+          }
+        },
+        {
+          "id": "6f98f98f-656e-4b63-879f-3fb0dbd659ae",
+          "role": "assistant",
+          "content": "Your name according to my memory profile is Aatish.",
+          "timestamp": "2026-08-04T09:24:02.379Z"
+        },
+        {
+          "id": "a002f1e3-8340-4127-82e3-7256c57cdcfc",
+          "role": "user",
+          "content": "What is the current date?",
+          "timestamp": "2026-08-04T09:24:02.384Z"
+        },
+        {
+          "id": "7033592f-9cdf-492b-84d5-7f2927b4068d",
+          "role": "assistant",
+          "content": "",
+          "timestamp": "2026-08-04T09:24:08.609Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "date",
+                "arguments": {}
+              }
+            ]
+          }
+        },
+        {
+          "id": "df2d6ed3-3aee-4da4-a954-68caefbf1290",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":\"8/4/2026\",\"message\":\"Current date: 8/4/2026\"}",
+          "timestamp": "2026-08-04T09:24:08.614Z",
+          "metadata": {
+            "toolName": "date"
+          }
+        },
+        {
+          "id": "4bf5d28a-18c4-408c-a397-7ee5dc671373",
+          "role": "assistant",
+          "content": "The current date is 8/4/2026.",
+          "timestamp": "2026-08-04T09:24:16.958Z"
+        },
+        {
+          "id": "a2c1aa0e-ba1e-4f60-b5ac-d931c47a3f05",
+          "role": "user",
+          "content": "What coding topic do I like?",
+          "timestamp": "2026-08-04T09:24:16.963Z"
+        },
+        {
+          "id": "ea2d3d47-f505-4c55-acf3-1a5a6e956358",
+          "role": "assistant",
+          "content": "You like coding agentic software.",
+          "timestamp": "2026-08-04T09:24:45.002Z"
+        },
+        {
+          "id": "2e4352c0-96f7-47cc-a019-1a0a0e8705d6",
+          "role": "user",
+          "content": "Subtract 500 from 1200.",
+          "timestamp": "2026-08-04T09:24:45.008Z"
+        },
+        {
+          "id": "19e525a3-03da-4233-93bd-9642dce90707",
+          "role": "assistant",
+          "content": "",
+          "timestamp": "2026-08-04T09:25:05.744Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "calculator",
+                "arguments": {
+                  "a": 1200,
+                  "b": 500,
+                  "operation": "subtract"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "f391d263-a999-421d-966c-dc36dac4b73e",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":700,\"message\":\"Successfully subtracted 500 from 1200\"}",
+          "timestamp": "2026-08-04T09:25:05.749Z",
+          "metadata": {
+            "toolName": "calculator"
+          }
+        },
+        {
+          "id": "ebc4977c-0412-471a-a982-3fda53576ff7",
+          "role": "assistant",
+          "content": "700",
+          "timestamp": "2026-08-04T09:25:15.917Z"
+        },
+        {
+          "id": "747b1f5d-5e00-4bda-9db0-e7de5d8830e7",
+          "role": "user",
+          "content": "What is the current time?",
+          "timestamp": "2026-08-04T09:25:15.922Z"
+        },
+        {
+          "id": "a8786ed1-594e-4258-bced-5a2e1f4bb564",
+          "role": "assistant",
+          "content": "",
+          "timestamp": "2026-08-04T09:25:22.384Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "time",
+                "arguments": {}
+              }
+            ]
+          }
+        },
+        {
+          "id": "47c9e836-ed01-427a-9965-92c128a220b1",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":\"2:55:22 PM\",\"message\":\"Current time: 2:55:22 PM\"}",
+          "timestamp": "2026-08-04T09:25:22.388Z",
+          "metadata": {
+            "toolName": "time"
+          }
+        },
+        {
+          "id": "92ab0b20-9487-4ca6-bb00-cc6a5f24dd70",
+          "role": "assistant",
+          "content": "The current time is 2:55:22 PM.",
+          "timestamp": "2026-08-04T09:25:30.863Z"
+        },
+        {
+          "id": "6584cb76-f82c-4d23-afac-838748ee8b0c",
+          "role": "user",
+          "content": "Add 158 and 242.",
+          "timestamp": "2026-08-04T09:25:30.868Z"
+        },
+        {
+          "id": "195c2a74-3b19-4555-b489-147b5335852a",
+          "role": "assistant",
+          "content": "",
+          "timestamp": "2026-08-04T09:25:54.263Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "calculator",
+                "arguments": {
+                  "a": 158,
+                  "b": 242,
+                  "operation": "add"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "225a0037-92fd-459b-abe0-6270af11b6f6",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":400,\"message\":\"Successfully added 158 and 242\"}",
+          "timestamp": "2026-08-04T09:25:54.268Z",
+          "metadata": {
+            "toolName": "calculator"
+          }
+        },
+        {
+          "id": "63d5795e-ced6-4f62-bf37-630cae0f3c04",
+          "role": "assistant",
+          "content": "158 + 242 is 400.",
+          "timestamp": "2026-08-04T09:26:05.289Z"
+        },
+        {
+          "id": "bad87f97-71a4-435c-8ad6-3d9e783dba19",
+          "role": "user",
+          "content": "What is my name according to your memory profile?",
+          "timestamp": "2026-08-04T09:26:05.294Z"
+        },
+        {
+          "id": "cee90c88-e5c7-4014-bab2-89fa56489078",
+          "role": "assistant",
+          "content": "",
+          "timestamp": "2026-08-04T09:26:35.083Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "memory",
+                "arguments": {
+                  "action": "getProfile"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "5260fe5e-b02b-4156-bd37-b71bddbef1a2",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":{\"name\":\"Aatish\",\"role\":\"Developer\"},\"message\":\"Retrieved user profile from global memory.\"}",
+          "timestamp": "2026-08-04T09:26:35.088Z",
+          "metadata": {
+            "toolName": "memory"
+          }
+        },
+        {
+          "id": "5867a3c3-fd70-4060-b9ae-ffbfb73bb2c5",
+          "role": "assistant",
+          "content": "Your name according to my memory profile is Aatish.",
+          "timestamp": "2026-08-04T09:26:46.866Z"
+        },
+        {
+          "id": "0c668750-bc6d-4966-8c75-86533b5e6199",
+          "role": "user",
+          "content": "What is the current date?",
+          "timestamp": "2026-08-04T09:26:46.871Z"
+        },
+        {
+          "id": "4f432a7d-3bdb-49b6-bbcd-dbcfa9eae0dd",
+          "role": "assistant",
+          "content": "",
+          "timestamp": "2026-08-04T09:26:53.116Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "date",
+                "arguments": {}
+              }
+            ]
+          }
+        },
+        {
+          "id": "cc65e3d4-186c-4e2b-b126-1cc47cc481f3",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":\"8/4/2026\",\"message\":\"Current date: 8/4/2026\"}",
+          "timestamp": "2026-08-04T09:26:53.121Z",
+          "metadata": {
+            "toolName": "date"
+          }
+        },
+        {
+          "id": "963a9cfb-1e9d-489a-ac7f-ceae5c5cf603",
+          "role": "assistant",
+          "content": "The current date is 8/4/2026.",
+          "timestamp": "2026-08-04T09:27:01.618Z"
+        },
+        {
+          "id": "7729460f-190d-4ef0-ba54-1825a153d4e2",
+          "role": "user",
+          "content": "What coding topic do I like?",
+          "timestamp": "2026-08-04T09:27:01.623Z"
+        },
+        {
+          "id": "e5934dac-e2dc-4d89-bbd0-f86d1d3030da",
+          "role": "assistant",
+          "content": "You like coding agentic software.",
+          "timestamp": "2026-08-04T09:27:27.172Z"
+        },
+        {
+          "id": "264c73a9-709c-499d-a033-8ae23aceb81e",
+          "role": "user",
+          "content": "Subtract 500 from 1200.",
+          "timestamp": "2026-08-04T09:27:27.177Z"
+        },
+        {
+          "id": "fa6bd905-2e6f-47f9-a8e2-d30bb1267e4d",
+          "role": "assistant",
+          "content": "",
+          "timestamp": "2026-08-04T09:27:48.994Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "calculator",
+                "arguments": {
+                  "a": 1200,
+                  "b": 500,
+                  "operation": "subtract"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "1a19e9a7-835e-471d-9180-42403eb4df42",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":700,\"message\":\"Successfully subtracted 500 from 1200\"}",
+          "timestamp": "2026-08-04T09:27:48.999Z",
+          "metadata": {
+            "toolName": "calculator"
+          }
+        },
+        {
+          "id": "99e2a3cf-79b9-4c45-8c0b-20ecf057f220",
+          "role": "assistant",
+          "content": "700",
+          "timestamp": "2026-08-04T09:27:58.811Z"
+        },
+        {
+          "id": "63078747-a470-4829-b2f3-f8bb12369bbd",
+          "role": "user",
+          "content": "What is the current time?",
+          "timestamp": "2026-08-04T09:27:58.816Z"
+        },
+        {
+          "id": "90d8b938-fe2c-4b94-97e6-33d46e6a7279",
+          "role": "assistant",
+          "content": "",
+          "timestamp": "2026-08-04T09:28:05.177Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "time",
+                "arguments": {}
+              }
+            ]
+          }
+        },
+        {
+          "id": "fbc65eaf-dbe5-437b-9d80-f6702377f086",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":\"2:58:05 PM\",\"message\":\"Current time: 2:58:05 PM\"}",
+          "timestamp": "2026-08-04T09:28:05.182Z",
+          "metadata": {
+            "toolName": "time"
+          }
+        },
+        {
+          "id": "f2b6961d-cd7a-441f-a50f-c05489fc7a6c",
+          "role": "assistant",
+          "content": "The current time is 2:58:05 PM.",
+          "timestamp": "2026-08-04T09:28:13.640Z"
+        },
+        {
+          "id": "792f3739-fb5c-49eb-aedb-e9d3a200731c",
+          "role": "user",
+          "content": "Add 158 and 242.",
+          "timestamp": "2026-08-04T09:28:13.646Z"
+        },
+        {
+          "id": "7cecd924-67a9-467c-8bef-b0977214a20d",
+          "role": "assistant",
+          "content": "",
+          "timestamp": "2026-08-04T09:28:36.226Z",
+          "metadata": {
+            "toolCalls": [
+              {
+                "name": "calculator",
+                "arguments": {
+                  "a": 158,
+                  "b": 242,
+                  "operation": "add"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "a88e7931-7929-4d2e-b2ee-1e4b7a6f8c81",
+          "role": "tool",
+          "content": "{\"success\":true,\"data\":400,\"message\":\"Successfully added 158 and 242\"}",
+          "timestamp": "2026-08-04T09:28:36.232Z",
+          "metadata": {
+            "toolName": "calculator"
+          }
+        },
+        {
+          "id": "6e91d5b6-3258-4cb5-94da-7a2d395745a5",
+          "role": "assistant",
+          "content": "400",
+          "timestamp": "2026-08-04T09:28:46.102Z"
         }
       ]
     }
